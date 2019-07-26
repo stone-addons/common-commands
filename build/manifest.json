@@ -1,9 +1,9 @@
 {
   "format_version": 1,
   "header": {
-    "name": "<desc>",
-    "description": "<name>",
-    "uuid": "<uuid>",
+    "name": "Common Commands",
+    "description": "Common Commands",
+    "uuid": "f0a6ea4f-f0b9-46b2-a9f8-c35fef976ef0",
     "version": [0, 0, 0],
     "min_engine_version": [1, 12, 0]
   },
@@ -11,7 +11,7 @@
     {
       "description": "data",
       "type": "data",
-      "uuid": "<uuid>",
+      "uuid": "4f386095-3860-4930-9a8b-92ef67367cc1",
       "version": [0, 0, 0]
     }
   ]
