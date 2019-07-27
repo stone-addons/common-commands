@@ -104,3 +104,29 @@ system.registerCommand("tpdeny", {
     } as CommandOverload<[]>
   ]
 });
+
+system.registerCommand("setlore", {
+  description: "Set lore for current item",
+  permission: 1,
+
+  overloads: [
+    {
+      parameters: [
+        {
+          type: "string",
+          name: "lore"
+        }
+      ],
+      handler([str]) {
+        if (!this.entity || !system.hasComponent(this.entity, MinecraftComponent.HandContainer)) throw `Can only be used by entity that has hand container`;
+        const hand = system.getComponent(this.entity, MinecraftComponent.HandContainer);
+        const item = hand.data[0];
+        server.log(JSON.stringify(item));
+        const old = system.getComponent(item, MinecraftComponent.Lore);
+        old.data = [str]
+        system.applyComponentChanges(item, old);
+        return "done";
+      }
+    } as CommandOverload<["string"]>
+  ]
+});
