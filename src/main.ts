@@ -11,6 +11,7 @@ function clearOutdatedEntries() {
     $current: new Date().getTime()
   });
 }
+system.registerPolicy("custom:home");
 system.registerPolicy("custom:tpa");
 system.registerCommand("tpa", {
   description: "send teleport request to player",
