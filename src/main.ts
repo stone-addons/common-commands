@@ -43,7 +43,7 @@ system.registerCommand("tpa", {
             true
           )
         ) {
-          return "you don't have permission to send tpa request";
+          throw "you don't have permission to send tpa request";
         }
         if (db.query("SELECT * FROM tpa WHERE source=$source OR target=$target", sqlParams).length > 0) {
           throw `there is a pending tpa request between you and target`;
@@ -100,6 +100,38 @@ system.registerCommand("tpdeny", {
           $target: str(this.entity)
         });
         return "removed";
+      }
+    } as CommandOverload<[]>
+  ]
+});
+
+system.registerCommand("home", {
+  description: "Go home!",
+  permission: 0,
+
+  overloads: [
+    {
+      parameters: [],
+      handler() {
+        if (!this.entity || this.entity.__identifier__ != "minecraft:player") throw `Can only be used by player`;
+        if (system.getComponent(this.entity, MinecraftComponent.Dimension).data != 0) throw `Cannot go home in other dimension`;
+        const data = system.getComponent(this.entity, MinecraftComponent.ExtraData).data;
+        const pos = { x: data.value.SpawnX.value as number, y: data.value.SpawnY.value as number, z: data.value.SpawnZ.value as number };
+        if (pos.y < 0) throw "You don't have home";
+        const comp = system.getComponent<IPositionComponent>(this.entity, MinecraftComponent.Position);
+        Object.assign(comp.data, pos);
+        if (
+          !system.checkPolicy(
+            "custom:home",
+            {
+              source: this.entity
+            },
+            true
+          )
+        ) {
+          throw "you don't have permission to go home";
+        }
+        system.applyComponentChanges(this.entity, comp);
       }
     } as CommandOverload<[]>
   ]
